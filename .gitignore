@@ -2,3 +2,5 @@
 mergedData.json
 unsorted/*
 !unsorted/.gitkeep
+results/*
+!results/.gitkeep

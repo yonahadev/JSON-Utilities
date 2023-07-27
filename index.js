@@ -9,16 +9,13 @@ const addID = async (file) => {
   const rawData = await fs.readFile(filePath,"utf-8")
   let jsonData = JSON.parse(rawData)
 
-  // Create a new array with "id" property added to each object
   const modifiedData = jsonData.map((element, index) => {
     return { ...element, id: index + 1 };
   });
 
-  // Convert the modified array to a JSON string
   const modifiedJSONString = JSON.stringify(modifiedData, null, 2);
 
-  // Write the JSON string to the file
-  await fs.writeFile("./modifiedFile.json", modifiedJSONString);
+  await fs.writeFile("./results/modifiedFile.json", modifiedJSONString);
   
   console.log("File with IDs written successfully")
 }
@@ -40,31 +37,32 @@ const readAndWriteFiles = async () => {
     
     mergedData = mergedData.concat(jsonData)
   }
-  console.log(mergedData)
   
   const combinedJSONString = JSON.stringify(mergedData,null,2)
 
-  await fs.writeFile("./mergedData.json",combinedJSONString,"utf-8")
+  await fs.writeFile("./results/mergedData.json", combinedJSONString, "utf-8")
+  
+    console.log("Files combined successfully")
 }
 
 const getFiles = async (index) => {
   const rawData = await fs.readFile("mergedData.json", "utf-8")
   const jsonData = JSON.parse(rawData)
-  console.log(jsonData[`${index}`])
+  console.log(jsonData)
 }
 
-// addID("test.json")
-
-const answer = prompt("S: sort files G: getFiles What would you like to do? ").toUpperCase()
+const answer = prompt("S: sort files G: getFiles A:addIDs What would you like to do? ").toUpperCase()
 if (answer === "S") {
   readAndWriteFiles()
 } else if (answer === "G") {
-  const index = prompt("At what index? ")
   try {
     getFiles(index)
   } catch {
-    console.log("Sorry index or file not found try again please.")
+    console.log("Sorry file not found, please try again.")
   }
+} else if (answer === "A") {
+  try { addID("results/mergedData.json") }
+  catch {console.log("Sorry file not found, please try again.")}
 } else {
   console.log("No worries, have a good day!")
 }
