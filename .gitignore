@@ -1,2 +1,4 @@
 # ignore generated file
 mergedData.json
+unsorted/*
+!unsorted/.gitkeep
