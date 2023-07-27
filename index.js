@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const prompt = require('prompt-sync')();
 
-const targetFolder = "./raw";
+const targetFolder = "./unsorted";
 
 const readAndWriteFiles = async () => {
   const files = await fs.readdir(targetFolder)
