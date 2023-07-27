@@ -27,7 +27,7 @@ const addID = async (file) => {
 const readAndWriteFiles = async () => {
   const files = await fs.readdir(targetFolder)
   
-  const mergedData = [];
+  let mergedData = []
   
   for (const file of files) {
     if (file === ".gitkeep") {
@@ -37,11 +37,14 @@ const readAndWriteFiles = async () => {
     const filePath = path.join(targetFolder, file)
     const rawData = await fs.readFile(filePath,"utf-8")
     const jsonData = JSON.parse(rawData)
-    console.log(jsonData)
-    Object.assign(mergedData,jsonData)
+    
+    mergedData = mergedData.concat(jsonData)
   }
+  console.log(mergedData)
+  
+  const combinedJSONString = JSON.stringify(mergedData,null,2)
 
-  await fs.writeFile("./mergedData.json",JSON.stringify(mergedData),"utf-8")
+  await fs.writeFile("./mergedData.json",combinedJSONString,"utf-8")
 }
 
 const getFiles = async (index) => {
@@ -50,19 +53,19 @@ const getFiles = async (index) => {
   console.log(jsonData[`${index}`])
 }
 
-addID("test.json")
+// addID("test.json")
 
-// const answer = prompt("S: sort files G: getFiles What would you like to do? ").toUpperCase()
-// if (answer === "S") {
-//   readAndWriteFiles()
-// } else if (answer === "G") {
-//   const index = prompt("At what index? ")
-//   try {
-//     getFiles(index)
-//   } catch {
-//     console.log("Sorry index or file not found try again please.")
-//   }
-// } else {
-//   console.log("No worries, have a good day!")
-// }
+const answer = prompt("S: sort files G: getFiles What would you like to do? ").toUpperCase()
+if (answer === "S") {
+  readAndWriteFiles()
+} else if (answer === "G") {
+  const index = prompt("At what index? ")
+  try {
+    getFiles(index)
+  } catch {
+    console.log("Sorry index or file not found try again please.")
+  }
+} else {
+  console.log("No worries, have a good day!")
+}
 
