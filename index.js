@@ -45,18 +45,30 @@ const readAndWriteFiles = async () => {
     console.log("Files combined successfully")
 }
 
-const getFiles = async (index) => {
-  const rawData = await fs.readFile("mergedData.json", "utf-8")
+const getMergedFile = async () => {
+  const rawData = await fs.readFile("./results/mergedData.json", "utf-8")
   const jsonData = JSON.parse(rawData)
   console.log(jsonData)
 }
 
-const answer = prompt("S: sort files G: getFiles A:addIDs What would you like to do? ").toUpperCase()
+const getFileWithIDs = async () => {
+  const rawData = await fs.readFile("./results/modifiedFile.json", "utf-8")
+  const jsonData = JSON.parse(rawData)
+  console.log(jsonData)
+}
+
+const answer = prompt("To merge files enter 'S'\nTo get your merged file enter 'M'\nTo add IDs to your file enter 'A'\nTo get your file with IDs added enter 'I'").toUpperCase()
 if (answer === "S") {
   readAndWriteFiles()
-} else if (answer === "G") {
+} else if (answer === "M") {
   try {
-    getFiles(index)
+    getMergedFile()
+  } catch {
+    console.log("Sorry file not found, please try again.")
+  }
+} else if (answer === "I") {
+  try {
+    getFileWithIDs()
   } catch {
     console.log("Sorry file not found, please try again.")
   }
